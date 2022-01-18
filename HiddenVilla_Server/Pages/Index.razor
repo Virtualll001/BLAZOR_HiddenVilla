@@ -1,0 +1,26 @@
+﻿@page "/"
+@using Model
+
+<PageTitle>BLAZOR Practice</PageTitle>
+
+<h1 class="myBlue">Udemy course</h1>
+<h5><a href="https://www.udemy.com/course/blazor-the-complete-guide/learn/lecture/23783600#overview" target="_blank">Bhrugen Patel</a></h5> 
+<br />
+<ol>
+    <li>Project Hidden-Villa - Blazor.Server</li>
+</ol>
+<hr />
+<br />
+
+<h4 class="myBlue">To remember</h4>
+<p>
+<strong>two-way binding:</strong> @@bind-value="Room.Price"<br />
+<strong>change on input:</strong> @@bind-value:event="oninput" <br />
+<strong>checkbox:</strong><br />
+&lt;type="checkbox" @@bind-value="Room.IsActive" checked="@@(Room.IsActive?"checked":null)"/&gt; &nbsp; Is Active<br />
+&lt;span&gt;The room is @@(Room.IsActive?"Active":"Inactive")&lt;/span&gt;<br />
+<strong>select:</strong>
+<span>...</span>
+</p>
+
+
