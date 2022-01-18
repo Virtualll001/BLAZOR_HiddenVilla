@@ -1,0 +1,14 @@
+﻿@using HiddenVilla_Server.Model
+
+
+<div class="container bg-light col-3 pb-2">
+    <h5 class="myBlue text-center pt-3">Amenities - @OurAmenity.Id</h5>
+    @OurAmenity.AmenityName<br>
+    @OurAmenity.Description<br>  
+</div>
+<br />
+
+@code {
+    [Parameter]
+    public Amenities OurAmenity { get; set; }
+}
