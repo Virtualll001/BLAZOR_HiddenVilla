@@ -1,7 +1,7 @@
 ﻿@using HiddenVilla_Server.Model
 
 
-<div class="container bg-light col-3 pb-2">
+<div class="container bg-light col-3 pb-2" @onclick="(args)=>AmenitySelectionChanged(args, OurAmenity.AmenityName)">
     <h5 class="myBlue text-center pt-3">Amenities - @OurAmenity.Id</h5>
     @OurAmenity.AmenityName<br>
     @OurAmenity.Description<br>  
@@ -9,6 +9,18 @@
 <br />
 
 @code {
-    [Parameter]
+    [Parameter]  
     public Amenities OurAmenity { get; set; }
+
+
+    [Parameter]
+    public EventCallback<string> OnAmenitySelection{ get; set; }
+
+    protected async Task AmenitySelectionChanged(MouseEventArgs e, string name)
+    {
+        await OnAmenitySelection.InvokeAsync((string)name);
+    }
+
+
+
 }

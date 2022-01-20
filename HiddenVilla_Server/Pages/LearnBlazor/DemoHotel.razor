@@ -3,7 +3,7 @@
 
 <div>
     <div class="container bg-dark p-2 myBlue">
-        <h2 class="myLightBlue text-center pt-3">Hotel Room´s</h2>      
+        <h2 class="myLightBlue text-center pt-3">Hotel Room´s</h2>
         <span class="text-white">Rooms Selected - @SelectedRooms</span>
         <br />
         <br />
@@ -21,16 +21,22 @@
 
             @foreach (var amenity in AmenitiesList)
             {
-                <Amenity OurAmenity="@amenity"></Amenity>
+                <Amenity OnAmenitySelection="AmenitySelectionChanged" OurAmenity="@amenity"></Amenity>
             }
         </div>
         <br />
     </div>
+    <div class="col-12">
+        <p class="alert-secondary">Selected Amenity : @SelectedAmenity</p>
+    </div>
 </div>
+
 
 @code {
 
     public int SelectedRooms { get; set; } = 0;
+    public string SelectedAmenity { get; set; } = "";
+
     List<BlazorRoom> RoomsList = new List<BlazorRoom>();
     List<Amenities> AmenitiesList = new List<Amenities>();
 
@@ -95,4 +101,11 @@
             SelectedRooms--;
         }
     }
+
+    protected void AmenitySelectionChanged(string amenity)
+    {
+        SelectedAmenity = amenity;
     }
+
+
+}
