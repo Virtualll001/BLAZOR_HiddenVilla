@@ -1,0 +1,112 @@
+﻿@page "/myko"
+@using HiddenVilla_Server.Model
+
+<style>
+    body {
+        background-color: #ECFCED;
+    }
+</style>
+
+
+<article class="container">
+    <h1 class="text-center my-4 mykoNadpis">Mykologie</h1>
+    <div class="row">
+        <div class="myMushroom border p-4 bg-light col-3">
+            Druh: <strong class="houbaNadpis">@Hrib.Jmeno</strong><br />
+            Stanoviště: @Hrib.Stanoviste<br />
+            Období růstu: @Hrib.Obdobi<br />
+            Jedlá: <input type="checkbox" checked />
+        </div>
+        <div class="myMushroom border p-4 bg-light col-3">
+            Druh: <strong class="houbaNadpis">@Muchomurka.Jmeno</strong><br />
+            Stanoviště: @Muchomurka.Stanoviste<br />
+            Období růstu: @Muchomurka.Obdobi<br />
+            Jedlá: <input type="checkbox" />
+        </div>
+    </div>
+</article>
+<hr />
+<article>
+    <br />
+    <div class="row pb-3">
+        <div class="col-6">
+            <h1 class="mykoNadpis offset-1">Kvíz</h1>
+        </div>
+        <div class="col-6">
+            <h1 class="mykoNadpis offset-1">Vyhodnocení</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <ol>
+                <li>
+                    <p>Je hřib smrkový: ...</p> 
+                    @{
+                        //TODO - předělat na radio s více možnostmi jedlá, nejedlá, jedovatá 
+                    }
+                </li>
+                <li>
+                    <p>Je muchomůrka zelená jedlá houba? &nbsp; <input type="checkbox" @bind-value="Muchomurka.Jedla" /></p>
+                </li>
+            </ol>
+        </div>
+        <div class="col-6">
+            <ol>
+                @* <li>
+                    @(Hrib.Jedla?"Správně - hřib smrkový je jedlá houba":"Chyba - hřib smrkový je jedlá houba")
+                    </li>*@
+                <li>
+                    @if (Hrib.Jedla)
+                    {
+                        <p class="text-success">Správně - hřib smrkový je jedlá houba</p>
+                    }
+                    else
+                    {
+                        <p class="text-danger">Chyba - hřib smrkový je jedlá houba</p>
+                    }
+                </li>
+                <li>
+                    @if (!Muchomurka.Jedla)
+                    {
+                        <p class="text-success">Správně - muchomůrka zelená není jedlá houba, je smrtelně jedovatá</p>
+
+                    }
+                    else
+                    {
+                        <p class="text-danger">Chyba - muchomůrka zelená je smrtelně jedovatá houba!</p>
+                    }
+                </li>
+            </ol>
+        </div>
+    </div>
+
+
+</article>
+<br />
+
+
+
+
+
+
+
+@code
+{
+    Houba Hrib = new Houba()
+        {
+            Id = 1,
+            Jmeno = "Hřib smrkový",
+            Stanoviste = "smrkový les",
+            Obdobi = "červen - říjen",
+            Jedla = true
+        };
+    Houba Muchomurka = new Houba()
+        {
+            Id = 2,
+            Jmeno = "Muchomůrka zelená",
+            Stanoviste = "smíšený les",
+            Obdobi = "červen - říjen",
+            Jedla = false
+        };
+}
+
