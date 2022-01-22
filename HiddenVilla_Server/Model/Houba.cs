@@ -7,7 +7,8 @@
         public string Stanoviste { get; set; }
         public string Obdobi { get; set; }
         public bool Jedla { get; set; }
-        
+        public List<HoubaParam> HoubaParametry { get; set; }        
+        public List<HoubaObchod> HoubaNakup { get; set; }
     }    
 }
 

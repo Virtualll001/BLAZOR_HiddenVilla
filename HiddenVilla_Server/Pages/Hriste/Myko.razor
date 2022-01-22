@@ -7,106 +7,163 @@
     }
 </style>
 
-
 <article class="container">
     <h1 class="text-center my-4 mykoNadpis">Mykologie</h1>
     <div class="row">
-        <div class="myMushroom border p-4 bg-light col-3">
-            Druh: <strong class="houbaNadpis">@Hrib.Jmeno</strong><br />
-            Stanoviště: @Hrib.Stanoviste<br />
-            Období růstu: @Hrib.Obdobi<br />
-            Jedlá: <input type="checkbox" checked />
-        </div>
-        <div class="myMushroom border p-4 bg-light col-3">
-            Druh: <strong class="houbaNadpis">@Muchomurka.Jmeno</strong><br />
-            Stanoviště: @Muchomurka.Stanoviste<br />
-            Období růstu: @Muchomurka.Obdobi<br />
-            Jedlá: <input type="checkbox" />
-        </div>
+        @foreach (var item in HoubySeznam)
+        {
+            <div class="myMushroom border p-2 bg-light">
+                <strong class="houbaNadpis">@item.Id) @item.Jmeno.ToUpper()</strong><br />
+                Stanoviště: @item.Stanoviste<br />
+                Období růstu: @item.Obdobi<br />
+                Jedlost: <input type="checkbox" @bind-value="item.Jedla" checked="@(item.Jedla?"checked":null)" /> <span>@(item.Jedla?"jedlá":"nejedlá/jedovatá")</span>
+                <br />
+                Info: <span>
+                    @foreach (var prop in item.HoubaParametry)
+                    {
+                        <span> @prop.VyzivaNazev - @prop.VyzivaPopis</span>
+                    }
+                </span>
+                <br />
+                <br>
+                <div>
+                    @if (item.Jedla)
+                    {
+                        <strong>Objednat:</strong>
+                        <select>
+                            @foreach (var polozka in item.HoubaNakup)
+                            {
+                                <option disabled selected value>-- zvolte položku</option>
+                                <option value="@polozka.Susena">@polozka.Susena.ToString()</option>
+                                <option value="@polozka.Cerstva">@polozka.Cerstva.ToString()</option>
+                            }
+                        </select>
+                        <br />
+                    }
+                </div>
+                <br />
+            </div>
+        }
     </div>
-</article>
-<hr />
-<article>
-    <br />
-    <div class="row pb-3">
-        <div class="col-6">
-            <h1 class="mykoNadpis offset-1">Kvíz</h1>
-        </div>
-        <div class="col-6">
-            <h1 class="mykoNadpis offset-1">Vyhodnocení</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-6">
-            <ol>
-                <li>
-                    <p>Je hřib smrkový: ...</p> 
-                    @{
-                        //TODO - předělat na radio s více možnostmi jedlá, nejedlá, jedovatá 
-                    }
-                </li>
-                <li>
-                    <p>Je muchomůrka zelená jedlá houba? &nbsp; <input type="checkbox" @bind-value="Muchomurka.Jedla" /></p>
-                </li>
-            </ol>
-        </div>
-        <div class="col-6">
-            <ol>
-                @* <li>
-                    @(Hrib.Jedla?"Správně - hřib smrkový je jedlá houba":"Chyba - hřib smrkový je jedlá houba")
-                    </li>*@
-                <li>
-                    @if (Hrib.Jedla)
-                    {
-                        <p class="text-success">Správně - hřib smrkový je jedlá houba</p>
-                    }
-                    else
-                    {
-                        <p class="text-danger">Chyba - hřib smrkový je jedlá houba</p>
-                    }
-                </li>
-                <li>
-                    @if (!Muchomurka.Jedla)
-                    {
-                        <p class="text-success">Správně - muchomůrka zelená není jedlá houba, je smrtelně jedovatá</p>
-
-                    }
-                    else
-                    {
-                        <p class="text-danger">Chyba - muchomůrka zelená je smrtelně jedovatá houba!</p>
-                    }
-                </li>
-            </ol>
-        </div>
-    </div>
-
-
+   
 </article>
 <br />
 
 
 
-
-
-
-
 @code
 {
-    Houba Hrib = new Houba()
-        {
-            Id = 1,
-            Jmeno = "Hřib smrkový",
-            Stanoviste = "smrkový les",
-            Obdobi = "červen - říjen",
-            Jedla = true
-        };
-    Houba Muchomurka = new Houba()
-        {
-            Id = 2,
-            Jmeno = "Muchomůrka zelená",
-            Stanoviste = "smíšený les",
-            Obdobi = "červen - říjen",
-            Jedla = false
-        };
+    
+    List<Houba> HoubySeznam = new List<Houba>();
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        HoubySeznam.Add(new Houba()
+            {
+                Id = 1,
+                Jmeno = "liška obecná",
+                Stanoviste = "jehličnaté lesy",
+                Obdobi = "červen - říjen",
+                Jedla = true,
+                HoubaParametry = new List<HoubaParam>
+                {
+                    new HoubaParam
+                    {
+                        Id=1,
+                        VyzivaNazev="mykorhizní",
+                        VyzivaPopis="symbióza s rostlinami"
+                    }
+                },
+                HoubaNakup = new List<HoubaObchod>
+                {
+                    new HoubaObchod
+                    {
+                        Susena="0,5 kg - sušené plátky",
+                        Cerstva="1 kg - čerstvé plodnice"
+                    }
+                }
+            });
+
+        HoubySeznam.Add(new Houba()
+            {
+                Id = 2,
+                Jmeno = "hřib satan",
+                Stanoviste = "listnaté stromy",
+                Obdobi = "červen - říjen",
+                Jedla = false,
+                HoubaParametry = new List<HoubaParam>
+                {
+                    new HoubaParam
+                    {
+                        Id=1,
+                        VyzivaNazev="mykorhizní",
+                        VyzivaPopis="symbióza s rostlinami"
+                    }
+                },
+                HoubaNakup = new List<HoubaObchod>
+                {
+                    new HoubaObchod
+                    {
+                        Susena="0,5 kg - sušené plátky",
+                        Cerstva="1 kg - čerstvé plodnice"
+                    }
+                }
+            });
+
+        HoubySeznam.Add(new Houba()
+            {
+                Id = 3,
+                Jmeno = "pařezník pozdní",
+                Stanoviste = "listnaté stromy v okolí řek",
+                Obdobi = "září - prosinec",
+                Jedla = true,
+                HoubaParametry = new List<HoubaParam>
+                {
+                    new HoubaParam
+                    {
+                        Id=2,
+                        VyzivaNazev="parazitická",
+                        VyzivaPopis="organické látky získává z hostitele"
+                    }
+                },
+                HoubaNakup = new List<HoubaObchod>
+                {
+                    new HoubaObchod
+                    {
+                        Susena="0,5 kg - sušené plátky",
+                        Cerstva="1 kg - čerstvé plodnice"
+                    }
+                }
+            });
+
+        HoubySeznam.Add(new Houba()
+            {
+                Id = 4,
+                Jmeno = "outkovka pestrá",
+                Stanoviste = "listnaté stromy",
+                Obdobi = "celoročně",
+                Jedla = false,
+                HoubaParametry = new List<HoubaParam>
+                {
+                    new HoubaParam
+                    {
+                        Id=2,
+                        VyzivaNazev="parazitická",
+                        VyzivaPopis="organické látky získává z hostitele"
+                    }
+                },
+                HoubaNakup = new List<HoubaObchod>
+                {
+                    new HoubaObchod
+                    {
+                        Susena="0,5 kg - sušené plátky",
+                        Cerstva="1 kg - čerstvé plodnice"
+                    }
+                }
+            });
+    }
 }
+
 
