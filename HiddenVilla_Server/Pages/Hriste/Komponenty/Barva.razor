@@ -1,7 +1,7 @@
 ﻿@using HiddenVilla_Server.Model
 
 
-<div class="container justify-content-center" @onclick="(args)=>BarvaSelectionChanged(args, ZvolenaBarva.Aktivni)">
+<div class="col-lg-6 col-xxl-4 justify-content-center" @onclick="BarvaSelectionChanged">
     @if (@ZvolenaBarva.Aktivni)
     {
         <div class="myCard">
@@ -27,8 +27,10 @@
     [Parameter]
     public EventCallback<string> OnBarvaSelection { get; set; }
 
-    protected async Task BarvaSelectionChanged(MouseEventArgs e, bool aktiv)
+    protected void BarvaSelectionChanged()
     {
-        //await OnBarvaSelection.InvokeAsync(ZvolenaBarva.Aktivni);
-    }
+        if(ZvolenaBarva.Aktivni ? (ZvolenaBarva.Aktivni = false) : (ZvolenaBarva.Aktivni = true));
+        InvokeAsync(StateHasChanged);           
+    }    
 }
+

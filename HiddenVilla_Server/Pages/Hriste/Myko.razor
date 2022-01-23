@@ -12,37 +12,7 @@
     <div class="row">
         @foreach (var item in HoubySeznam)
         {
-            <div class="myMushroom border p-2 bg-light">
-                <strong class="houbaNadpis">@item.Id) @item.Jmeno.ToUpper()</strong><br />
-                Stanoviště: @item.Stanoviste<br />
-                Období růstu: @item.Obdobi<br />
-                Jedlost: <input type="checkbox" @bind-value="item.Jedla" checked="@(item.Jedla?"checked":null)" /> <span>@(item.Jedla?"jedlá":"nejedlá/jedovatá")</span>
-                <br />
-                Info: <span>
-                    @foreach (var prop in item.HoubaParametry)
-                    {
-                        <span> @prop.VyzivaNazev - @prop.VyzivaPopis</span>
-                    }
-                </span>
-                <br />
-                <br>
-                <div>
-                    @if (item.Jedla)
-                    {
-                        <strong>Objednat:</strong>
-                        <select>
-                            @foreach (var polozka in item.HoubaNakup)
-                            {
-                                <option disabled selected value>-- zvolte položku</option>
-                                <option value="@polozka.Susena">@polozka.Susena.ToString()</option>
-                                <option value="@polozka.Cerstva">@polozka.Cerstva.ToString()</option>
-                            }
-                        </select>
-                        <br />
-                    }
-                </div>
-                <br />
-            </div>
+            <HoubaVizitka Houba="@item"></HoubaVizitka>
         }
     </div>
    

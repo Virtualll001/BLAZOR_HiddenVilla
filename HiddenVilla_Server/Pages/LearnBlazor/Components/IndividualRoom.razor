@@ -18,13 +18,21 @@
         }
     }
     <br>
-    <EditDeleteButton IsAdmin="true"></EditDeleteButton>
+
+    <span> I am admin...: </span><input type="checkbox" @bind-value="ImAdmin" />
+    @if(ImAdmin)
+    {
+        <br />
+         <EditDeleteButton IsAdmin="true"></EditDeleteButton>
+    }   
 </div>
 <br />
 
 @code {
     [Parameter]
     public BlazorRoom Room { get; set; }
+
+    public bool ImAdmin { get; set; } = false;
 
     [Parameter]
     public EventCallback<bool> OnRoomCheckBoxSelection{ get; set; }

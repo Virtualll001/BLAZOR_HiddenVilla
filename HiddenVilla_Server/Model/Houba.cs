@@ -12,4 +12,4 @@
     }    
 }
 
-//TODO - jedlost časem předělat na enum
+//TODO: jedlost časem předělat na enum

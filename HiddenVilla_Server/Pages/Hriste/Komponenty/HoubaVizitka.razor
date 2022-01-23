@@ -1,0 +1,40 @@
+﻿@using HiddenVilla_Server.Model
+
+
+<div class="myMushroom border p-2 bg-light">
+                <strong class="houbaNadpis">@houba.Id) @houba.Jmeno.ToUpper()</strong><br />
+                Stanoviště: @houba.Stanoviste<br />
+                Období růstu: @houba.Obdobi<br />
+                Jedlost: <input type="checkbox" @bind-value="houba.Jedla" checked="@(houba.Jedla?"checked":null)" /> <span>@(houba.Jedla?"jedlá":"nejedlá/jedovatá")</span>
+                <br />
+                Info: <span>
+                    @foreach (var prop in houba.HoubaParametry)
+                    {
+                        <span> @prop.VyzivaNazev - @prop.VyzivaPopis</span>
+                    }
+                </span>
+                <br />
+                <br>
+                <div>
+                    @if (houba.Jedla)
+                    {
+                        <strong>Objednat:</strong>
+                        <select>
+                            @foreach (var polozka in houba.HoubaNakup)
+                            {
+                                <option disabled selected value>-- zvolte položku</option>
+                                <option value="@polozka.Susena">@polozka.Susena.ToString()</option>
+                                <option value="@polozka.Cerstva">@polozka.Cerstva.ToString()</option>
+                            }
+                        </select>
+                        <br />
+                    }
+                </div>
+                <br />
+            </div>
+
+
+@code {
+    [Parameter]
+    public Houba houba{ get; set; }
+}

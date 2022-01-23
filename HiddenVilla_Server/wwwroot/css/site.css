@@ -46,6 +46,10 @@
     margin: 0.5em;  
 }
 
+.myCard:hover{
+    cursor:grab;
+}
+
 .myCardBody {
     width: 330px;
     height: 310px;

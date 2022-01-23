@@ -52,23 +52,38 @@
 </div>
 <br />
 
-<div class="container border text-center shadow p-3 pb-5 rounded" >
+<div class="container border text-center shadow p-3 pb-5 rounded">
     <h2 class="zivyFont pb-3" style="font-size:4em">Barvíme rybičky</h2>
 
     <div class="shake-slow shake-constant pb-4"><img src="images/rybaMala.gif" alt="ryba" width="80px" /></div>
     <br />
     <div class="row justify-content-center">
         @foreach (var barva in SeznamBarev)
-        {
-            <Barva ZvolenaBarva="@barva"></Barva>
-            @*<Barva OnBarvaSelection="BarvaSelectionChanged" ZvolenaBarva="@barva"></Barva>*@             
+        {   
+            <Barva ZvolenaBarva="@barva"></Barva>       
         }
     </div>
 </div>
 <br />
-<br />
-<br />
 
+<div class="container border text-center shadow p-3 pb-5 rounded">
+    <h2 class="zivyFont pb-3" style="font-size:4em">Poznáš zvířátko?</h2>
+
+    <button class="btn btn-success" @onclick="PrehlidkaZviratek">START</button>
+    <br /><br />
+
+    <div class="align-content-center" title="@Zviratka[Counter].Jmeno" @onclick="()=> Zvuky(Zviratka[Counter])">
+        <img src="@Zviratka[Counter].ZvireUrl" alt="@Zviratka[Counter].Jmeno" />
+    </div>
+ @*   <div>
+        <p>Jsem <strong>@Zviratka[Counter].Jmeno.ToUpper()</strong> a dělám @Zviratka[Counter].Zvuk...</p>
+    </div>*@
+</div>
+<br />
+<br />
+@{
+    //TODO: Prohlídka zvířátek má problémy s časováním - lepší verze by byla s Carouselelem...
+}
 
 
 @code {
@@ -83,10 +98,14 @@
         set { }
     }
 
+    [Parameter]
+    public int Counter { get; set; } = 5;
+
     public string ZvolenaBarva { get; set; }
     List<Barvy> SeznamBarev = new List<Barvy>();
+    List<Zviratka> Zviratka = new List<Zviratka>();
 
-
+    public string Zvuk { get; set; } = "";
 
     protected override void OnInitialized()
     {
@@ -171,5 +190,73 @@
                 UrlRyby = "images/rybaRuzova.gif",
                 Aktivni = false
             });
+
+        Zviratka.Add(new Zviratka()
+            {
+                Jmeno = "kočka",
+                Zvuk = "mňau, mňau, mňau",
+                ZvireUrl = "images/zviratka/kocka.gif"
+            });
+
+        Zviratka.Add(new Zviratka()
+            {
+                Jmeno = "prase",
+                Zvuk = "chro, chro, chro",
+                ZvireUrl = "images/zviratka/prase.gif"
+            });
+
+        Zviratka.Add(new Zviratka()
+            {
+                Jmeno = "kůň",
+                Zvuk = "í ha há, í ha há",
+                ZvireUrl = "images/zviratka/kun.gif"
+            });
+
+        Zviratka.Add(new Zviratka()
+            {
+                Jmeno = "slepice",
+                Zvuk = "ko ko ko dák",
+                ZvireUrl = "images/zviratka/slepice.gif"
+            });
+
+        Zviratka.Add(new Zviratka()
+            {
+                Jmeno = "kráva",
+                Zvuk = "bů, bů, bů",
+                ZvireUrl = "images/zviratka/krava.gif"
+            });
+
+        Zviratka.Add(new Zviratka()
+            {
+                Jmeno = "pes",
+                Zvuk = "haf, haf, haf",
+                ZvireUrl = "images/zviratka/pes.gif"
+            });
+
+
+    }
+
+
+
+    public void Zvuky(Zviratka zvire)
+    {
+        Zvuk = $"Jsem {zvire.Jmeno.ToUpper()} a dělám: {zvire.Zvuk}!";
+    }
+
+
+
+    public void PrehlidkaZviratek()
+    {
+        Counter = 5;
+        var timer = new Timer(TimeCallBack, null, 1000, 1000);
+    }
+
+    public void TimeCallBack(object state)
+    {
+        if (Counter > 0)
+        {
+            Counter--;
+            InvokeAsync(StateHasChanged);
+        }
     }
 }
