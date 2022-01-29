@@ -5,16 +5,22 @@
     <h5 class="myBlue text-center pt-3">Amenities - @OurAmenity.Id</h5>
     @OurAmenity.AmenityName<br>
     @OurAmenity.Description<br>  
+    <br />
+    <i>RF from Parent - @FirstFragment, @SecondFragment</i><br />
+    
 </div>
 <br />
 
 @code {
     [Parameter]  
     public Amenities OurAmenity { get; set; }
-
-
     [Parameter]
     public EventCallback<string> OnAmenitySelection{ get; set; }
+
+    [Parameter]
+    public RenderFragment FirstFragment { get; set; }
+    [Parameter]
+    public RenderFragment SecondFragment { get; set; }
 
     protected async Task AmenitySelectionChanged(MouseEventArgs e, string name)
     {

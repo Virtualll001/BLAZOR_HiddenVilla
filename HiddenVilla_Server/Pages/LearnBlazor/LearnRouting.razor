@@ -1,0 +1,26 @@
+﻿@page "/learnrouting"
+@page "/newrouting"
+@page "/learnrouting/{parameter1}"
+@page "/learnrouting/{parameter1}/{parameter2}"
+
+
+@*
+    URL není case sensitive!
+    Parameter je nutné specifikovat!
+*@
+
+<h3 class="text-primary">Learn Routing</h3>
+<br />
+<h4>Parameter 1 : @Parameter1</h4>
+<h4>Parameter 2 : @Parameter2</h4>
+<br />
+<NavLink class="btn btn-secondary" href="LearnAdvancedRouting?Param1=Blazzing&Param2=Blazor">
+    Routing with Query Param
+</NavLink>
+
+@code {
+    [Parameter]
+    public string Parameter1 { get; set; }
+    [Parameter]
+    public string Parameter2 { get; set; }
+}

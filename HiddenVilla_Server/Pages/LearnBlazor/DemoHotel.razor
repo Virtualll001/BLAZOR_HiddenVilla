@@ -18,11 +18,13 @@
         <h2 class="myLightBlue text-center pt-3">Hotel Amenitie´s</h2>
         <br />
         <div class="row pb-3">
-
             @foreach (var amenity in AmenitiesList)
             {
-                <Amenity OnAmenitySelection="AmenitySelectionChanged" OurAmenity="@amenity"></Amenity>
-            }
+                <Amenity OnAmenitySelection="AmenitySelectionChanged" OurAmenity="@amenity">
+                    <FirstFragment>#1</FirstFragment>
+                    <SecondFragment>#2</SecondFragment>
+                </Amenity>
+            }            
         </div>
         <br />
         <div class="col-12">
