@@ -1,5 +1,32 @@
-﻿<h3>BlazorJS</h3>
+﻿@page "/blazorjs"
+@inject IJSRuntime JsRuntime
+
+<h3 class="text-primary">Blazor and JavaScipt</h3>
+<p>
+    Vyskakovací okno pro potvrzovací hlášky...
+</p>
+<br />
+<div class="row">
+    <button class="btn btn-secondary col-4" @onclick="TestConfirmBox">Test Confirm Button</button>
+</div>
+<br />
+<div class="row">
+    @if (ConfirmResult)
+    {
+        <p class="text-success">POTVRZENO!</p>
+    }
+    else
+    {
+        <p>Čeká se na potvrzení</p>
+    }
+</div>
 
 @code {
+    private string ConfirmMessage = "Jsi si jistý, že chceš kliknout?";
+    private bool ConfirmResult { get; set; }
 
+    public async Task TestConfirmBox()
+    {
+        ConfirmResult = await JsRuntime.InvokeAsync<bool>("confirm", ConfirmMessage);
+    }
 }
