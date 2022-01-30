@@ -5,11 +5,13 @@
 
 <CascadingValue Value="@messageForGrandChild" Name="1">
     <CascadingValue Value="@message2ForGrandChild" Name="2">
-    <ChildComponent OnClickBtnMethod="ShowMessage" Title="This title is passed as parameter from Parent Component">
-        <ChildContent>Render Fragment From Parent! WooHOO!</ChildContent>
-        @* <DangerChildContent>Danger Content from Render Fragment! WooHOO!</DangerChildContent>*@
-    </ChildComponent>
-        </CascadingValue>
+        <ChildComponent @ref="childComp"
+                        OnClickBtnMethod="ShowMessage"
+                        Title="This title is passed as parameter from Parent Component">
+            <ChildContent>Render Fragment From Parent! WooHOO!</ChildContent>
+            @* <DangerChildContent>Danger Content from Render Fragment! WooHOO!</DangerChildContent>*@
+        </ChildComponent>
+    </CascadingValue>
 </CascadingValue>
 
 @*<ChildComponent Title="This is second child Component">
@@ -20,9 +22,14 @@
 <AnotherChildComponent InputAttributes="InputAttributesFromParent"></AnotherChildComponent>
 
 
+ <button class="btn btn-success col-3 mt-4" @onclick="()=>childComp.ShowToastrSuccess()">Zobraz alert-úspěch</button>
+
+
 
 
 @code {
+    private ChildComponent childComp;
+
     private string messageForGrandChild = "This is a message from Grand Parent";
     private string message2ForGrandChild = "This is second message from Grand Parent";
 

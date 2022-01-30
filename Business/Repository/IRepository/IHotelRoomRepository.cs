@@ -15,6 +15,6 @@ namespace Business.Repository.IRepository
         public Task<int> DeleteHotelRoom(int roomId);
         public Task<IEnumerable<HotelRoomDTO>> GetAllHotelRooms();
 
-        public Task<HotelRoomDTO> IsRoomUniqe(string name);
+        public Task<HotelRoomDTO> IsRoomUniqe(string name, int roomId = 0);
     }
 }

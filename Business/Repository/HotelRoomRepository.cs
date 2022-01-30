@@ -20,7 +20,7 @@ namespace Business.Repository
         public HotelRoomRepository(ApplicationDbContext db, IMapper mapper)
         {
             _mapper = mapper;
-            _db = db;           
+            _db = db;
         }
 
         public async Task<HotelRoomDTO> CreateHotelRoom(HotelRoomDTO hotelRoomDTO)
@@ -49,21 +49,21 @@ namespace Business.Repository
         {
             try
             {
-                IEnumerable<HotelRoomDTO> hotelRoomDTOs = 
+                IEnumerable<HotelRoomDTO> hotelRoomDTOs =
                     _mapper.Map<IEnumerable<HotelRoom>, IEnumerable<HotelRoomDTO>>(_db.HotelRooms);
                 return hotelRoomDTOs;
             }
             catch (Exception ex)
             {
                 return null;
-            }     
+            }
         }
 
         public async Task<HotelRoomDTO> GetHotelRoom(int roomId)
         {
             try
             {
-                HotelRoomDTO hotelRoom = _mapper.Map<HotelRoom,HotelRoomDTO>(
+                HotelRoomDTO hotelRoom = _mapper.Map<HotelRoom, HotelRoomDTO>(
                     await _db.HotelRooms.FirstOrDefaultAsync(x => x.Id == roomId));
 
                 return hotelRoom;
@@ -75,14 +75,25 @@ namespace Business.Repository
         }
 
         //if unique returns null else returns the room obj
-        public async Task<HotelRoomDTO> IsRoomUniqe(string name)
+        public async Task<HotelRoomDTO> IsRoomUniqe(string name, int roomId = 0)
         {
             try
             {
-                HotelRoomDTO hotelRoom = _mapper.Map<HotelRoom, HotelRoomDTO>(
-                    await _db.HotelRooms.FirstOrDefaultAsync(x => x.Name.ToLower() == name.ToLower()));
+                if (roomId == 0)
+                {
+                    HotelRoomDTO hotelRoom = _mapper.Map<HotelRoom, HotelRoomDTO>(
+                        await _db.HotelRooms.FirstOrDefaultAsync(x => x.Name.ToLower() == name.ToLower()));
 
-                return hotelRoom;
+                    return hotelRoom;
+                }
+                else
+                {
+                    HotelRoomDTO hotelRoom = _mapper.Map<HotelRoom, HotelRoomDTO>(
+                       await _db.HotelRooms.FirstOrDefaultAsync(x => x.Name.ToLower() == name.ToLower()
+                       && x.Id != roomId));
+
+                    return hotelRoom;
+                }
             }
             catch (Exception ex)
             {
@@ -116,7 +127,7 @@ namespace Business.Repository
             {
                 return null;
             }
-            
+
         }
     }
 }

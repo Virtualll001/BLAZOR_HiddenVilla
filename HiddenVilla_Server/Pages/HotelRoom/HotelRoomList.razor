@@ -22,7 +22,7 @@
                     <th>Běžná sazba</th>
                     <th>Plocha m2</th>
                     <th>
-
+                        
                     </th>
                 </tr>
             </thead>
@@ -37,7 +37,7 @@
                             <td>@room.RegularRate.ToString("c")</td>
                             <td>@room.SqFt</td>
                             <td>
-
+                                <NavLink href="@($"hotel-room/edit/{room.Id}")" class="btn btn-primary">Upravit</NavLink>
                             </td>
                         </tr>
                     }

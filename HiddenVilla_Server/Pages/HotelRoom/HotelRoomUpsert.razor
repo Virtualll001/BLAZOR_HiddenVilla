@@ -1,8 +1,10 @@
 ﻿@page "/hotel-room/create"
+@page "/hotel-room/edit/{Id:int}"
 @using Models
 @using Business.Repository.IRepository
 @inject IHotelRoomRepository HotelRoomRepository
 @inject NavigationManager NavigationManager
+@inject IJSRuntime JsRuntime
 
 <div class="row mt-3 mb-5">
     <h3 class="card-title text-info mb-3 ml-3">@Title nový pokoj</h3>
@@ -47,18 +49,57 @@
 
 
 @code {
+
+    [Parameter]
+    public int? Id { get; set; }
+
     private HotelRoomDTO HotelRoomModel { get; set; } = new HotelRoomDTO();
-    private string Title { get; set; } = "Vytvořit";
+    private string Title { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Id != null) //update
+        {
+            Title = "Upravit";
+            HotelRoomModel = await HotelRoomRepository.GetHotelRoom(Id.Value);
+        }
+        else //create
+        {
+            Title = "Vytvořit";
+            HotelRoomModel = new HotelRoomDTO();
+        }
+    }
 
     private async Task HandleHotelRoomUpsert()
     {
-        var roomDetailsByName = await HotelRoomRepository.IsRoomUniqe(HotelRoomModel.Name);
-        if(roomDetailsByName != null)
+        try
         {
-            //duplicate room = error
-            return;
+            var roomDetailsByName = await HotelRoomRepository.IsRoomUniqe(HotelRoomModel.Name, HotelRoomModel.Id);
+            if (roomDetailsByName != null)
+            {
+                //duplicate room = error
+                await JsRuntime.ToastrError("Takový pokoj již existuje.");
+                return;
+            }
+
+            if (HotelRoomModel.Id != 0 && Title == "Upravit")
+            {
+                //update
+                var updateRoomResult = await HotelRoomRepository.UpdateHotelRoom(HotelRoomModel.Id, HotelRoomModel);
+                await JsRuntime.ToastrSuccess("Hotelový pokoj byl úspěšně aktualizován.");
+            }
+            else
+            {
+                //create
+                var createdResult = await HotelRoomRepository.CreateHotelRoom(HotelRoomModel);
+                await JsRuntime.ToastrSuccess("Hotelový pokoj byl úspěšně přidán.");
+            }
         }
-        var createdResult = await HotelRoomRepository.CreateHotelRoom(HotelRoomModel);
+        catch (Exception ex)
+        {
+
+        }
+
         NavigationManager.NavigateTo("hotel-room");
     }
 }
