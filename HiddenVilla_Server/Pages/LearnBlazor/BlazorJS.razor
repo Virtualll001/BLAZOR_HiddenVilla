@@ -5,12 +5,12 @@
 <p>
     Vyskakovací okno pro potvrzovací hlášky...
 </p>
-<br />
-<div class="row">
-    <button class="btn btn-secondary col-4" @onclick="TestConfirmBox">Test Confirm Button</button>
+
+<div class="row mt-4">
+    <button class="btn btn-secondary col-4" @onclick="(()=>TestConfirmBox(ConfirmMessage))">Test Potvrzovací tlačítko</button>
 </div>
-<br />
-<div class="row">
+
+<div class="row mt-4">
     @if (ConfirmResult)
     {
         <p class="text-success">POTVRZENO!</p>
@@ -21,12 +21,48 @@
     }
 </div>
 
+<div class="row mt-4">
+    <button class="btn btn-success col-3" @onclick="TestSuccess">Test Toastr úspěch</button>
+    <div class="col-1"></div>
+    <button class="btn btn-danger col-3" @onclick="TestFailure">Test Toastr error</button>
+</div>
+ 
+<div class="row mt-4">
+    <button class="btn btn-success col-3" @onclick="TestSuccessSwal">Test SweetAlert úspěch</button>
+    <div class="col-1"></div>
+    <button class="btn btn-danger col-3" @onclick="TestFailureSwal">Test SweetAlert error</button>
+</div>
+
 @code {
     private string ConfirmMessage = "Jsi si jistý, že chceš kliknout?";
     private bool ConfirmResult { get; set; }
 
-    public async Task TestConfirmBox()
+    public async Task TestConfirmBox(string message)
     {
-        ConfirmResult = await JsRuntime.InvokeAsync<bool>("confirm", ConfirmMessage);
+        ConfirmResult = await JsRuntime.InvokeAsync<bool>("confirm", message);
     }
+
+    public async Task TestSuccess()
+    {
+        //await JsRuntime.InvokeVoidAsync("ShowToastr", "success", "Hlásím úspěch");
+        await JsRuntime.ToastrSuccess("Hlásím úspěch");
+    }
+
+    public async Task TestFailure()
+    {
+        //await JsRuntime.InvokeVoidAsync("ShowToastr", "error", "Hlásím error");
+        await JsRuntime.ToastrError("Hlásím error");
+    }
+
+    public async Task TestSuccessSwal()
+    {
+        await JsRuntime.InvokeVoidAsync("ShowSwal", "success", "Test byl úspěšný");
+    }
+
+    public async Task TestFailureSwal()
+    {
+        await JsRuntime.InvokeVoidAsync("ShowSwal", "error", "Test selhal");
+        
+    }
+
 }
