@@ -13,7 +13,7 @@ namespace Models
         [Required(ErrorMessage = "Vyplňte prosím jméno")]
         [Display(Name = "Jméno")]
         public string Name { get; set; }
-        [Required(ErrorMessage = "Vyplňte prosím obsazenost")]
+        [Range(1, 100, ErrorMessage = "Vyplňte prosím obsazenost")]
         [Display(Name = "Obsazenost")]
         public int Occupancy { get; set; }       
         [Range(1,3000,ErrorMessage ="Běžná sazba musí být mezi 1-3000")]

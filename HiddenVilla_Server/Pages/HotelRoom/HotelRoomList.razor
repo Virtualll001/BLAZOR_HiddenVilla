@@ -1,4 +1,8 @@
 ﻿@page "/hotel-room"
+@using Models
+@using Business.Repository.IRepository
+@inject IHotelRoomRepository HotelRoomRepository
+
 
 <div class="row mt-4">
     <div class="col-8">
@@ -8,7 +12,57 @@
         <NavLink href="hotel-room/create" class="btn btn-info form-control">Přidat nový pokoj</NavLink>
     </div>
 </div>
+<div class="row mt-4">
+    <div class="col-12">
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Jméno</th>
+                    <th>Obsazenost</th>
+                    <th>Běžná sazba</th>
+                    <th>Plocha m2</th>
+                    <th>
+
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (HotelRooms.Any())
+                {
+                    @foreach (var room in HotelRooms)
+                    {
+                        <tr>
+                            <td>@room.Name</td>
+                            <td>@room.Occupancy</td>
+                            <td>@room.RegularRate.ToString("c")</td>
+                            <td>@room.SqFt</td>
+                            <td>
+
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5">Nebyl nalezen žádný záznam</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
 
 @code {
+
+    private IEnumerable<HotelRoomDTO> HotelRooms { get; set; } = new List<HotelRoomDTO>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        HotelRooms = await HotelRoomRepository.GetAllHotelRooms();
+    }
 
 }

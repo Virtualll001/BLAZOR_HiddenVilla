@@ -19,8 +19,8 @@ namespace Business.Repository
 
         public HotelRoomRepository(ApplicationDbContext db, IMapper mapper)
         {
-            _db = db;
             _mapper = mapper;
+            _db = db;           
         }
 
         public async Task<HotelRoomDTO> CreateHotelRoom(HotelRoomDTO hotelRoomDTO)
@@ -28,6 +28,7 @@ namespace Business.Repository
             HotelRoom hotelRoom = _mapper.Map<HotelRoomDTO, HotelRoom>(hotelRoomDTO);
             hotelRoom.CreatedDate = DateTime.Now;
             hotelRoom.CreatedBy = "";
+            hotelRoom.UpdatedBy = "";//není v originále, ale jinak to hází ERROR
             var addedHotelRoom = await _db.HotelRooms.AddAsync(hotelRoom);
             await _db.SaveChangesAsync();
             return _mapper.Map<HotelRoom, HotelRoomDTO>(addedHotelRoom.Entity);
@@ -88,6 +89,7 @@ namespace Business.Repository
                 return null;
             }
         }
+
 
         public async Task<HotelRoomDTO> UpdateHotelRoom(int roomId, HotelRoomDTO hotelRoomDTO)
         {

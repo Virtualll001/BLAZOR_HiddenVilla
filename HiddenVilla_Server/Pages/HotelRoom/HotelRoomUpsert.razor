@@ -1,23 +1,31 @@
 ﻿@page "/hotel-room/create"
 @using Models
+@using Business.Repository.IRepository
+@inject IHotelRoomRepository HotelRoomRepository
+@inject NavigationManager NavigationManager
 
 <div class="row mt-3 mb-5">
-    <h3 class="card-title text-info mb-3 ml-3">@Title hotelový pokoj</h3>
+    <h3 class="card-title text-info mb-3 ml-3">@Title nový pokoj</h3>
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
-                <EditForm Model="HotelRoomModel">
+                <EditForm Model="HotelRoomModel" OnValidSubmit="HandleHotelRoomUpsert">
+                    <DataAnnotationsValidator></DataAnnotationsValidator>
+                    @*<ValidationSummary />*@
                     <div class="form-group my-3">
                         <label>Jméno</label>
                         <InputText @bind-Value="HotelRoomModel.Name" class="form-control"></InputText>
+                        <ValidationMessage For="()=>HotelRoomModel.Name"></ValidationMessage>
                     </div>
                     <div class="form-group my-3">
                         <label>Obsazenost</label>
                         <InputNumber @bind-Value="HotelRoomModel.Occupancy" class="form-control"></InputNumber>
+                        <ValidationMessage For="()=>HotelRoomModel.Occupancy"></ValidationMessage>
                     </div>
                     <div class="form-group my-3">
                         <label>Běžná sazba</label>
                         <InputNumber @bind-Value="HotelRoomModel.RegularRate" class="form-control"></InputNumber>
+                        <ValidationMessage For="()=>HotelRoomModel.RegularRate"></ValidationMessage>
                     </div>
                     <div class="form-group my-3">
                         <label>Plocha</label>
@@ -26,7 +34,7 @@
                     <div class="form-group my-3">
                         <label>Detaily</label>
                         <InputTextArea @bind-Value="HotelRoomModel.Details" class="form-control"></InputTextArea>
-                    </div>                
+                    </div>
                     <div class="form-group my-3">
                         <button class="btn btn-primary">@Title pokoj</button>
                         <NavLink href="hotel-room" class="btn btn-secondary">Zpět na seznam</NavLink>
@@ -42,4 +50,15 @@
     private HotelRoomDTO HotelRoomModel { get; set; } = new HotelRoomDTO();
     private string Title { get; set; } = "Vytvořit";
 
+    private async Task HandleHotelRoomUpsert()
+    {
+        var roomDetailsByName = await HotelRoomRepository.IsRoomUniqe(HotelRoomModel.Name);
+        if(roomDetailsByName != null)
+        {
+            //duplicate room = error
+            return;
+        }
+        var createdResult = await HotelRoomRepository.CreateHotelRoom(HotelRoomModel);
+        NavigationManager.NavigateTo("hotel-room");
+    }
 }
