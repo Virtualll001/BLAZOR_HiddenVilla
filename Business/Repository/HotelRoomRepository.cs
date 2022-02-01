@@ -39,6 +39,9 @@ namespace Business.Repository
             var roomDetails = await _db.HotelRooms.FindAsync(roomId);
             if (roomDetails != null)
             {
+                var allimages = await _db.HotelRoomImages.Where(x => x.RoomId == roomId).ToListAsync();
+                
+                _db.HotelRoomImages.RemoveRange(allimages);
                 _db.HotelRooms.Remove(roomDetails);
                 return await _db.SaveChangesAsync();
             }
