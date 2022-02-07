@@ -127,9 +127,18 @@
     public BlazoredTextEditor QuillHtml { get; set; } = new BlazoredTextEditor();
     private bool IsImageUploadProcessStarted { get; set; } = false;
 
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthenticationState{ get; set; }
 
     protected override async Task OnInitializedAsync()
     {
+        var authenticationState = await AuthenticationState;
+        if (!authenticationState.User.IsInRole(SD.Role_Admin)) //tohle nahrazuje: @attribute [Authorize(Roles = SD.Role_Admin)]
+        {
+            var uri = new Uri(NavigationManager.Uri);
+            NavigationManager.NavigateTo($"/identity/account/login?returnUrl={uri.LocalPath}");
+        }
+              
         if (Id != null) //update
         {
             Title = "Upravit";
@@ -196,7 +205,7 @@
                     {
                         foreach (var deletedImageName in DeletedImageNames)
                         {
-                            var imageName = deletedImageName.Replace($"RoomImages/", "");
+                            var imageName = deletedImageName.Replace($"{NavigationManager.BaseUri}RoomImages/", "");
                             var result = FileUpload.DeleteFile(imageName);
                             await HotelImagesRepository.DeleteHotelImageByImageUrl(deletedImageName);
                         }
@@ -307,7 +316,7 @@
         try
         {
             var imageIndex = HotelRoomModel.ImageUrls.FindIndex(x => x == imageUrl);
-            var imageName = imageUrl.Replace($"RoomImages/", "");
+            var imageName = imageUrl.Replace($"{NavigationManager.BaseUri}RoomImages/", "");
             if (HotelRoomModel.Id == 0 && Title == "Vytvořit") //??? bude fungovat s diakritikou???
             {
                 var result = FileUpload.DeleteFile(imageName);
