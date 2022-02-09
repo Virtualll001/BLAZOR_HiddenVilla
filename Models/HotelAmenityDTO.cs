@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Models
 {
-    public class HotelAmenityDTO
+    public class HotelAmenityDTO //data transfer object
     {
         public int Id { get; set; }
         [Display(Name = "Název vybavení")]

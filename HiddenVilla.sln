@@ -13,6 +13,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Business", "Business\Busine
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "Models\Models.csproj", "{4CA56EA1-4BDE-45B8-B146-2A4AFE279918}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HiddenVilla_Api", "HiddenVilla_Api\HiddenVilla_Api.csproj", "{4EE55140-DD63-49AC-B5EE-28975A80AEA0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HiddenVilla_Client", "HiddenVilla_Client\HiddenVilla_Client.csproj", "{A28F80C8-0C0C-4C02-997B-E5F833876BBD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{4CA56EA1-4BDE-45B8-B146-2A4AFE279918}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4CA56EA1-4BDE-45B8-B146-2A4AFE279918}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4CA56EA1-4BDE-45B8-B146-2A4AFE279918}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4EE55140-DD63-49AC-B5EE-28975A80AEA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4EE55140-DD63-49AC-B5EE-28975A80AEA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4EE55140-DD63-49AC-B5EE-28975A80AEA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4EE55140-DD63-49AC-B5EE-28975A80AEA0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A28F80C8-0C0C-4C02-997B-E5F833876BBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A28F80C8-0C0C-4C02-997B-E5F833876BBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A28F80C8-0C0C-4C02-997B-E5F833876BBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A28F80C8-0C0C-4C02-997B-E5F833876BBD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
