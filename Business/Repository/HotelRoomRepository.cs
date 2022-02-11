@@ -48,7 +48,7 @@ namespace Business.Repository
             return 0;
         }
 
-        public async Task<IEnumerable<HotelRoomDTO>> GetAllHotelRooms()
+        public async Task<IEnumerable<HotelRoomDTO>> GetAllHotelRooms(string checkInDate = null, string checkOutDate = null)
         {
             try
             {
